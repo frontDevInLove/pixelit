@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
-import imgUrl from "/src/assets/123.png";
+import style from "./TransformImg.module.scss";
+import { PixelSvg } from "../PixelSvg";
 
 // Определение интерфейса для пропсов компонента
 interface Props {
@@ -192,12 +193,11 @@ const recolorImage = (
   return result;
 };
 
-const TransformImg: FC<Props> = ({
-  colors = defaultColors,
-  imageSrc = imgUrl,
-}) => {
+const TransformImg: FC<Props> = ({ colors = defaultColors, imageSrc }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [colorMatrix, setColorMatrix] = useState<string[][]>([]);
+  const [showColors, setShowColors] = useState(false);
+  const [showPuzzle, setShowPuzzle] = useState(false);
   const conutPixel = 128;
 
   useEffect(() => {
@@ -212,7 +212,7 @@ const TransformImg: FC<Props> = ({
     const image = new Image();
 
     // Указываем путь к изображению
-    image.src = imageSrc;
+    image.src = imageSrc ?? "";
 
     // Отрисовываем изображение на canvas после загрузки
     image.onload = () => {
@@ -222,63 +222,68 @@ const TransformImg: FC<Props> = ({
 
       setColorMatrix(arrColors);
     };
-  }, [imageSrc]);
+  }, [imageSrc, colors]);
 
   return (
-    <div>
+    <div className={style.resultWrapper}>
       <canvas ref={canvasRef} width={300} height={300} />
 
-      <details>
-        <summary>Уникальные цвета:</summary>
-        <ol>
-          {colors.map((color, index) => (
-            <li
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                marginTop: 10,
-              }}
-              key={index}
-            >
-              {color}
-              <div
-                style={{
-                  display: "inline-block",
-                  width: 20,
-                  height: 20,
-                  background: color,
-                }}
-              ></div>
-            </li>
-          ))}
-        </ol>
-      </details>
+      <div className={style.resultWrapper__colors}>
+        <button onClick={() => setShowColors((prev) => !prev)}>
+          {showColors ? "Скрыть уникальные цвета" : "Показать уникальные цвета"}
+        </button>
+        {showColors && (
+          <ul>
+            {colors.map((color, index) => (
+              <li key={index} style={{ borderBottom: `3px solid ${color}` }}>
+                {color}
+                <div style={{ background: color }}></div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-      <details>
-        <summary>
-          Пазл {conutPixel}x{conutPixel}
-        </summary>
+      <div className={style.resultWrapper__puzzle}>
+        <button onClick={() => setShowPuzzle(true)}>
+          Показать пазл {conutPixel}x{conutPixel}
+        </button>
 
-        {colorMatrix.map((row, rowIndex) => (
-          <div key={`row-${rowIndex}`}>
-            {/* Используем более уникальный ключ для строки */}
-            {row.map((color, colIndex) => (
-              // Комбинируем rowIndex и colIndex для создания уникального ключа для каждого элемента
-              <div
-                key={`col-${rowIndex}-${colIndex}`}
-                style={{
-                  display: "inline-block",
-                  width: 4, // Убедитесь, что значения ширины и высоты заданы как строки с единицами измерения
-                  height: 4,
-                  margin: 1,
-                  backgroundColor: color, // Используйте backgroundColor для задания цвета фона
-                }}
-              ></div>
+        {showPuzzle && (
+          <div className={style.modal}>
+            {colorMatrix.map((row, rowIndex) => (
+              <div key={`row-${rowIndex}`} className={style.modal__row}>
+                {/* Используем более уникальный ключ для строки */}
+                {row.map((color, colIndex) => (
+                  // Комбинируем rowIndex и colIndex для создания уникального ключа для каждого элемента
+                  // <div
+                  //   key={`col-${rowIndex}-${colIndex}`}
+                  //   style={{
+                  //     backgroundColor: color, // Используйте backgroundColor для задания цвета фона
+                  //   }}
+                  //   className={style.modal__cell}
+                  // />
+
+                  <PixelSvg
+                    key={`col-${rowIndex}-${colIndex}`}
+                    baseColor={color}
+                  />
+                ))}
+              </div>
             ))}
           </div>
-        ))}
-      </details>
+        )}
+
+        {showPuzzle && (
+          <div className={style.close} onClick={() => setShowPuzzle(false)}>
+            &#10006;
+          </div>
+        )}
+      </div>
+
+      <div className={style.resultWrapper__colors}>
+        <button onClick={() => location.reload()}>Начать сначала</button>
+      </div>
     </div>
   );
 };

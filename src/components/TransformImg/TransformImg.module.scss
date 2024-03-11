@@ -1,0 +1,88 @@
+.resultWrapper {
+  display: grid;
+  grid-auto-flow: row;
+
+  &__colors {
+    margin-top: 16px;
+    display: grid;
+    grid-auto-flow: row;
+    margin-bottom: 16px;
+
+    ul {
+      margin-top: 24px;
+      display: grid;
+      grid-auto-flow: row;
+      gap: 12px;
+
+      li {
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 500;
+        font-style: italic;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 4px;
+
+        div {
+          border-radius: 4px;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  &__puzzle {
+    svg {
+      width: 8px;
+      height: 8px;
+    }
+  }
+}
+
+.modal {
+  padding: 4px;
+  background: #fff;
+  overflow: auto;
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  &__row {
+    line-height: 4px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex: 1 0 auto;
+  }
+
+  &__cell {
+    display: inline-block;
+    min-width: 4px;
+    min-height: 4px;
+    width: 4px;
+    height: 4px;
+    margin: 1px;
+  }
+}
+
+.close {
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  left: 8px;
+  top: 8px;
+  width: 30px;
+  height: 30px;
+  font-size: 24px;
+  line-height: 1;
+}

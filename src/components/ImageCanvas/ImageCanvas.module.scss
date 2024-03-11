@@ -1,0 +1,15 @@
+.canvasWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.btnWrapper {
+  margin-top: 16px;
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 700px) {
+    grid-template: 1fr 1fr 1fr 1fr / 1fr;
+  }
+}

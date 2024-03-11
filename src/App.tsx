@@ -1,7 +1,8 @@
-import MyDropzone from "./components/MyDropzone";
+import Dropzone from "./components/Dropzone/Dropzone";
 import { useState } from "react";
-import ImageCanvas from "./components/ImageCanvas";
-import TransformImg from "./components/TransformImg";
+import ImageCanvas from "./components/ImageCanvas/ImageCanvas";
+import TransformImg from "./components/TransformImg/TransformImg";
+import style from "./App.module.scss";
 
 function App() {
   const [image, setImage] = useState<File | null>(null);
@@ -27,31 +28,28 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       {/*Загрузка*/}
-      <MyDropzone onImageUpload={onImageUpload} />
+      {step === 0 && <Dropzone onImageUpload={onImageUpload} />}
 
-      <div style={{ justifyContent: "center", display: "flex" }}>
-        <div>
-          {/*Выбираем область*/}
-          {step === 1 && image && (
-            <ImageCanvas image={image} onExport={onExport} />
-          )}
+      {/*Выбираем область*/}
+      {step === 1 && image && (
+        <ImageCanvas image={image} onExport={onExport} reset={restart} />
+      )}
 
-          {/*Результат нашего выбора*/}
-          {step === 2 && imageData && (
-            <>
-              <img src={imageData} />
-              <div>Продложить?</div>
-              <button onClick={() => setStep(3)}>Да</button>
-              <button onClick={() => setStep(1)}>Назад</button>
-            </>
-          )}
+      {/*Результат нашего выбора*/}
+      {step === 2 && imageData && (
+        <div className={style.step2Wrapper}>
+          <img src={imageData} />
+          <div className={style.btnWrapper}>
+            <button onClick={() => setStep(3)}>Продолжить</button>
+            <button onClick={() => setStep(1)}>Назад</button>
+          </div>
         </div>
+      )}
 
-        {step === 3 && imageData && <TransformImg imageSrc={imageData} />}
-      </div>
-    </div>
+      {step === 3 && imageData && <TransformImg imageSrc={imageData} />}
+    </>
   );
 }
 
