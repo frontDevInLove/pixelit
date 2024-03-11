@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import style from "./TransformImg.module.scss";
-import { PixelSvg } from "../PixelSvg";
+// import { PixelSvg } from "../PixelSvg";
 
 // Определение интерфейса для пропсов компонента
 interface Props {
@@ -260,18 +260,18 @@ const TransformImg: FC<Props> = ({ colors = defaultColors, imageSrc }) => {
                 {/* Используем более уникальный ключ для строки */}
                 {row.map((color, colIndex) => (
                   // Комбинируем rowIndex и colIndex для создания уникального ключа для каждого элемента
-                  // <div
-                  //   key={`col-${rowIndex}-${colIndex}`}
-                  //   style={{
-                  //     backgroundColor: color, // Используйте backgroundColor для задания цвета фона
-                  //   }}
-                  //   className={style.modal__cell}
-                  // />
-
-                  <PixelSvg
+                  <div
                     key={`col-${rowIndex}-${colIndex}`}
-                    baseColor={color}
+                    style={{
+                      backgroundColor: color, // Используйте backgroundColor для задания цвета фона
+                    }}
+                    className={style.modal__cell}
                   />
+
+                  // <PixelSvg
+                  //   key={`col-${rowIndex}-${colIndex}`}
+                  //   baseColor={color}
+                  // />
                 ))}
               </div>
             ))}
