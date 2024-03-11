@@ -249,6 +249,10 @@ const TransformImg: FC<Props> = ({ colors = defaultColors, imageSrc }) => {
           Показать пазл {conutPixel}x{conutPixel}
         </button>
 
+        <div className={style.resultWrapper__puzzle} style={{ marginTop: 20 }}>
+          <button onClick={() => location.reload()}>Начать сначала</button>
+        </div>
+
         {showPuzzle && (
           <div className={style.modal}>
             {colorMatrix.map((row, rowIndex) => (
@@ -279,10 +283,6 @@ const TransformImg: FC<Props> = ({ colors = defaultColors, imageSrc }) => {
             &#10006;
           </div>
         )}
-      </div>
-
-      <div className={style.resultWrapper__colors}>
-        <button onClick={() => location.reload()}>Начать сначала</button>
       </div>
     </div>
   );
