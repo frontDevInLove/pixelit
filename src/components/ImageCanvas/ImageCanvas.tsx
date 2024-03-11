@@ -46,6 +46,7 @@ const ImageCanvas: FC<Props> = ({ image, onExport, reset }) => {
 
   const handleSave = useCallback(() => {
     if (stageRef.current) {
+      // @ts-ignore
       const dataURL = stageRef.current.toDataURL({
         // +1 и -2 — это фикс рамки на превью, возможно, каким-то иным способом это можно сделать
         x: windowPosition.x + 1,
